@@ -6,6 +6,38 @@ CITY_DATA = {'chicago': 'chicago.csv', 'new york': 'new_york_city.csv', 'washing
 months = {'jan': {'full': 'January', 'num':1}, 'feb': {'full': 'February', 'num': 2}, 'mar': {'full': 'March', 'num':3}, 'apr': {'full': 'April', 'num': 4}, 'may': {'full': 'May', 'num': 5}, 'jun': {'full': 'June', 'num': 6}}
 days = {'sun':'Sunday', 'mon':'Monday', 'tue':'Tuesday', 'wed':'Wednesday','thr':'Thursday','fri':'Friday', 'sat':'Saturday'}
 
+def get_day_filter():
+    day_filter = input('Which day? Or type \'all\' for all days. (Sun, Mon, Tue, Wed, Thr, Fri, Sat)\n').lower()
+    while True:
+        try:
+            if day_filter in days:
+                day = days.get(day_filter)
+                break
+            elif day_filter =='all':
+                day='none'
+                break
+            else:
+                print('\nNot a valid input. Please enter one of the valid days from the list.\n')
+        except:
+                print('\nNot a valid input. Please try again.\n')
+    return day
+
+def get_month_filter():
+    while True:
+        try:
+            month_filter = input('Which month would you like to filter by? Or type \'all\' for all months. (Jan, Feb, Mar, Apr, May, Jun)\n').lower()
+            if month_filter in months:
+                month = month_filter
+                break
+            elif month_filter == 'all':
+                month = 'none'
+                break
+            else:
+                print('\nInvalid month, please choose from the list of valid months.\n')
+        except:
+                print('\nNot a valid input. Please try again.\n')
+    return month
+
 def get_filters():
     while True:
         try:
@@ -21,66 +53,16 @@ def get_filters():
         filt_type = input('Would you like to filter data by month, day, both, or not at all? Type \'none\' for no filter.\n').lower()
         try:
             if filt_type == 'month':
-                while True:
-                    try:
-                        monthx = input('Which month would you like to filter by? Or type \'all\' for all months. (Jan, Feb, Mar, Apr, May, Jun)\n').lower()
-                        if monthx in months:
-                            month = monthx
-                            day = 'none'
-                            break
-                        elif monthx == 'all':
-                            month = 'none'
-                            day = 'none'
-                            break
-                        else:
-                            print('\nInvalid month, please choose from the list of valid months.\n')
-                    except:
-                           print('\nNot a valid input. Please try again.\n')
+                month = get_month_filter()
+                day = 'none'
                 break
             elif filt_type == 'day':
-                while True:
-                    try:
-                        dayx = input('Which day? Or type \'all\' for all days. (Sun, Mon, Tue, Wed, Thr, Fri, Sat)\n').lower()
-                        if dayx in days:
-                            day = days.get(dayx)
-                            month = 'none'
-                            break
-                        elif dayx =='all':
-                            day='none'
-                            month = 'none'
-                            break
-                        else:
-                            print('\nNot a valid input. Please enter one of the valid days from the list.\n')
-                    except:
-                           print('\nNot a valid input. Please try again.\n')
+                day = get_day_filter()
+                month = 'none'
                 break
             elif filt_type == 'both':
-                while True:
-                    try:
-                        monthx = input('Which month would you like to filter by? Or type \'all\' for all months. (Jan, Feb, Mar, Apr, May, Jun)\n').lower()
-                        if monthx in months:
-                            month = monthx
-                            break
-                        elif monthx == 'all':
-                            month = 'none'
-                            break
-                        else:
-                            print('\nInvalid month, please choose from the list of valid months.\n')
-                    except:
-                           print('\nNot a valid input. Please try again.\n')
-                while True:
-                    try:
-                        dayx = input('Which day? Or type \'all\' for all days. (Sun, Mon, Tue, Wed, Thr, Fri, Sat)\n').lower()
-                        if dayx in days:
-                            day = days.get(dayx)
-                            break
-                        elif dayx =='all':
-                            day='none'
-                            break
-                        else:
-                            print('\nNot a valid input. Please enter a valid day from the above days.\n')
-                    except:
-                           print('\nNot a valid input. Please try again.\n')
+                month = get_month_filter()
+                day = get_day_filter()
                 break
             elif filt_type == 'none':
                 month = 'none'
@@ -249,11 +231,11 @@ def user_stats(df, city):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
-def get_raw_data(df, i, x):
-    if i >= x:
-        i == x
+def get_raw_data(df, row_counter, max_rows):
+    if row_counter >= max_rows:
+        row_counter == max_rows
         
-    print(df.head(i))
+    print(df.head(row_counter))
 
 def main():
     while True:
@@ -308,17 +290,17 @@ def main():
         #Will show the raw data for the given data if user inputs yes
         show_raw_data = input('\nWould you like to show the raw data for this set? Enter yes or no.\n')
         if show_raw_data.lower() !='no':
-            #use i as a counter variable for the number of rows to display
-            i=5
-            #use x as the number of rows in the dataset
-            x = int(df.shape[0])
-            get_raw_data(df, i, x)
+            #use row_counter as a counter variable for the number of rows to display
+            row_counter=5
+            #use max_rows as the number of rows in the dataset
+            max_rows = int(df.shape[0])
+            get_raw_data(df, row_counter, max_rows)
             while True:
-                i += 5
+                row_counter += 5
                 show_add = input('\nWould you like to see additional data? Enter yes or no.\n')
                 if show_add.lower() != 'no' :
-                    get_raw_data(df, i, x)
-                    if i >= x:
+                    get_raw_data(df, row_counter, max_rows)
+                    if row_counter >= max_rows:
                         print('This is the all the raw data to display')
                         break
                 else:
