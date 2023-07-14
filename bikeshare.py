@@ -7,9 +7,9 @@ months = {'jan': {'full': 'January', 'num':1}, 'feb': {'full': 'February', 'num'
 days = {'sun':'Sunday', 'mon':'Monday', 'tue':'Tuesday', 'wed':'Wednesday','thr':'Thursday','fri':'Friday', 'sat':'Saturday'}
 
 def get_day_filter():
-    day_filter = input('Which day? Or type \'all\' for all days. (Sun, Mon, Tue, Wed, Thr, Fri, Sat)\n').lower()
     while True:
         try:
+            day_filter = input('Which day? Or type \'all\' for all days. (Sun, Mon, Tue, Wed, Thr, Fri, Sat)\n').lower()
             if day_filter in days:
                 day = days.get(day_filter)
                 break
