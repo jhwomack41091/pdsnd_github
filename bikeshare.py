@@ -79,6 +79,7 @@ def get_filters():
     return city, month, day
 
 def load_data(city, month, day):
+    """This function loads the data into a data frame for calculations based on the filters the user selected."""
     #Loads data for the specified city and filters by month and day if applicable.
     df = pd.read_csv(CITY_DATA[city])
     # convert the Start Time column to datetime
@@ -97,6 +98,7 @@ def load_data(city, month, day):
     return df
 
 def time_stats(df, month, day):
+    """This function calculates time statistics if the user has selected to view them from the main."""
     print('\nCalculating the most frequent times of travel...\n')
     start_time = time.time()
     if month == 'none':
@@ -126,6 +128,7 @@ def time_stats(df, month, day):
     print('-'*40)
 
 def station_stats(df):
+    """This function calculates station statistics if the user has selected to view them from the main."""
     #Displays statistics on the most popular stations and trips.
     print('\nCalculating the most popular stations and trip...\n')
     start_time = time.time()
@@ -160,7 +163,7 @@ def station_stats(df):
     print('-'*40)
 
 def trip_duration_stats(df):
-     #"""Displays statistics on the total and average trip duration."""
+    """This function calculates trip duration statistics if the user has selected to view them from the main."""
      #Uses mathematics to calulate hrs, min, secs from total time in seconds (https://www.studytonight.com/python-howtos/how-to-convert-seconds-to-hours-minutes-and-seconds-in-python)
 
     print('\nCalculating Trip Duration...\n')
@@ -205,6 +208,7 @@ def trip_duration_stats(df):
     print('-'*40)
 
 def user_stats(df, city):
+    """This function calculates user statistics if the user has selected to view them from the main."""
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
@@ -238,6 +242,7 @@ def get_raw_data(df, row_counter, max_rows):
     print(df.head(row_counter))
 
 def main():
+    """This function is the main function to get a user selected city and prompt the user for filters for the data and display stats if the user desires."""
     while True:
         city, month, day = get_filters()
   
